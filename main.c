@@ -1,5 +1,5 @@
 //###########################################################################
-// LCD12864¡ª¡ªdsp28335 Êý×Ö¼òÒ×Ê¾²¨Æ÷
+// LCD12864â€”â€”dsp28335 æ•°å­—ç®€æ˜“ç¤ºæ³¢å™¨
 //###########################################################################
 
 #include "DSP28x_Project.h" // Device Headerfile and Examples Include File
@@ -9,8 +9,8 @@
 #include "usr/controlCenter.h"
 
 /***
- * TODO: Ê±¼ä³ß¶È  &&  µçÑ¹³ß¶È  &&  ´¥·¢·½Ê½
- *       ÆµÂÊ²âÁ¿  ==> ¿ØÖÆÖÐÐÄ
+ * TODO: æ—¶é—´å°ºåº¦  &&  ç”µåŽ‹å°ºåº¦  &&  è§¦å‘æ–¹å¼
+ *       é¢‘çŽ‡æµ‹é‡  ==> æŽ§åˆ¶ä¸­å¿ƒ
  */
 
 /******************************************************************************************/
@@ -19,24 +19,45 @@
 void main(void)
 {
     all_Sys_Init();
-    lcd_Toast("    »¶Ó­Ê¹ÓÃ      Êý×ÖÊ¾²¨Æ÷~!\0");
+    Lcd_ClearBMP();
+    //lcd_Toast("    æ¬¢è¿Žä½¿ç”¨      æ•°å­—ç¤ºæ³¢å™¨~!\0");
     //lcd_Sin_test();
-    for(;;){
-        if(DISPLAY_CURVE){
-            if(adc_Over()){
-                Lcd_ClearTXT();
-                lcd_Draw_Sample();
-//                DELAY_LOOP();
-                adc_Restart();
-            }
-        }
-        if(!DISPLAY_CURVE)
-                   {
-                       Lcd_ClearTXT();
-                       Lcd_ClearBMP();
-                       lcd_PutStr(0, 0, "ÆµÂÊ:\0");
-                       DELAY_LOOP();
-                   }
+    //lcd_Clean_Screnn_With_Buffer();
 
-    }
+//    lcd_ready_to_draw();
+//    lcd_write_cmd(frambufftoYADR(511));
+//    lcd_write_cmd(frambufftoXADR(511));
+//    lcd_write_data(0xff);
+//    lcd_write_data(0xff);
+//    lcd_draw_over();
+
+
+     for(;;){
+         if(DISPLAY_CURVE){
+             if(adc_Over()){
+                 //Lcd_ClearTXT();
+                 //lcd_Draw_Sample();
+                 if(EN_DEBUG)
+                 {
+                     lcd_Clean_Screnn_With_Buffer();
+                     lcd_Sin_test();
+                 }
+                 else
+                 {
+                     lcd_Clean_Screnn_With_Buffer();
+                     lcd_Draw_Sample();
+                 }
+ //                DELAY_LOOP();
+                 adc_Restart();
+             }
+         }
+         if(!DISPLAY_CURVE)
+                    {
+                        lcd_PutStr(0, 0, "é¢‘çŽ‡:\0");
+                        DELAY_LOOP();
+                        Lcd_ClearTXT();
+                        Lcd_ClearBMP();
+                    }
+
+     }
 }

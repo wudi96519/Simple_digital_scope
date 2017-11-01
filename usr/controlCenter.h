@@ -8,6 +8,7 @@
 #define EN_ADC 1
 #define EN_KEY 1
 #define EN_LCD 1
+#define EN_DEBUG 0
 
 extern Uint16 num_Of_index;
 extern Uint16 sample_index;
@@ -16,9 +17,6 @@ extern int DISPLAY_CURVE;
 
 extern void all_Sys_Init();
 
-/**
- * 每个按键对应执行一次的函数
- */
 extern void ISR_key1();
 extern void ISR_key2();
 extern void ISR_key3();
