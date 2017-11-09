@@ -10,6 +10,9 @@
 #define EN_LCD 1
 #define EN_DEBUG 0
 
+extern INDEX_TO_DRAW;
+extern Uint16 up_or_down_flag;
+
 extern Uint16 num_Of_index;
 extern Uint16 sample_index;
 extern int votage_Level;
@@ -26,6 +29,7 @@ extern void ISR_key6();
 extern void ISR_key7();
 extern void ISR_key8();
 extern void ISR_key9();
+
 
 
 

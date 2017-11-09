@@ -20,18 +20,6 @@ void main(void)
 {
     all_Sys_Init();
     Lcd_ClearBMP();
-    //lcd_Toast("    欢迎使用      数字示波器~!\0");
-    //lcd_Sin_test();
-    //lcd_Clean_Screnn_With_Buffer();
-
-//    lcd_ready_to_draw();
-//    lcd_write_cmd(frambufftoYADR(511));
-//    lcd_write_cmd(frambufftoXADR(511));
-//    lcd_write_data(0xff);
-//    lcd_write_data(0xff);
-//    lcd_draw_over();
-
-
      for(;;){
          if(DISPLAY_CURVE){
              if(adc_Over()){
@@ -39,13 +27,14 @@ void main(void)
                  //lcd_Draw_Sample();
                  if(EN_DEBUG)
                  {
-                     lcd_Clean_Screnn_With_Buffer();
                      lcd_Sin_test();
+                     DELAY_LOOP();
                  }
                  else
                  {
-                     lcd_Clean_Screnn_With_Buffer();
                      lcd_Draw_Sample();
+                     DELAY_LOOP();
+
                  }
  //                DELAY_LOOP();
                  adc_Restart();
@@ -53,7 +42,7 @@ void main(void)
          }
          if(!DISPLAY_CURVE)
                     {
-                        lcd_PutStr(0, 0, "频率:\0");
+                        lcd_PutStr(0, 0,"Freq:\0");
                         DELAY_LOOP();
                         Lcd_ClearTXT();
                         Lcd_ClearBMP();

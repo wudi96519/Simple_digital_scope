@@ -1,8 +1,8 @@
 #ifndef __LCD12864_H_
 #define __LCD12864_H_
 
-#define  TOAST_TIME 100                                     //吐司时间（不精确）
-
+#define  TOAST_TIME  20                               //吐司时间（不精确）
+#define  TOAST_TEXT_TIME  5
 extern void DELAY_LOOP();
 extern void lcd_Init();                                     //初始化LCD
 extern void lcd_Update();                                   //显示缓存的图像

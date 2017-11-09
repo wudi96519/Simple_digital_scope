@@ -3,12 +3,17 @@
 #include "usr/keyint.h"
 #include "usr/adcint.h"
 #include "usr/controlCenter.h"
+
+#define UP_OR_DOWN_DECIDE_VALUE 1000
+#define BAND 3
+
 /**
  * TODO:给每个按键分配功能
  *      设定适当全局变量
  */
 
 int DISPLAY_CURVE=1;
+Uint16 up_or_down_flag=0;
 void all_Sys_Init()
 {
     InitSysCtrl();
@@ -20,15 +25,71 @@ void all_Sys_Init()
     if(EN_ADC)
         adc_Init();
     if(EN_LCD)
+    {
         lcd_Init();
+        lcd_Toast("   welcome to    digital scope~!\0");
+    }
     if(EN_KEY)
         keyboard_Scan_Init();
 }
 
 
+void up_or_down(void)
+{
+    int i=0, minus=0,max=0,max_flag=0,zero_flag;
+    if(up_or_down_flag==1)                               //上升沿触发
+        for(i=0;i<128;i++)
+        {
+            minus = SampleTable[i+1]-SampleTable[i];
+            if(minus-UP_OR_DOWN_DECIDE_VALUE>0)
+            {INDEX_TO_DRAW=i;break;}
+        }
+    else if(up_or_down_flag==0)                                           //下降沿触发
+        for(i=0;i<128;i++)
+        {
+            minus = SampleTable[i+1]-SampleTable[i];
+            if(minus+UP_OR_DOWN_DECIDE_VALUE<0)
+            {INDEX_TO_DRAW=i;break;}
+        }
+    else if(up_or_down_flag==2)                 //低电平触发
+    {
+        zero_flag=0;
+        for(i=0;i<128;i++)
+            {
+                minus = SampleTable[i]/64;
+                if(minus<BAND)
+                {
+                    zero_flag++;
+                    if(zero_flag==2)
+                    {
+                        INDEX_TO_DRAW=i;break;
+                    }
+                }
+            }
+    }
+    else if(up_or_down_flag==3)                 //高电平触发
+    {
+        max=SampleTable[i]/64;
+        for(i=0;i<128;i++)
+            {
+                minus=(int)(SampleTable[i+1]/64)-max;
+                if(minus>0&&minus<BAND)
+                {
+                    max=SampleTable[i+1]/64;
+                    max_flag=i;
+                }
+                else if(minus<0&&minus+BAND>0)
+                {
+                    max=max;
+                }
+            }
+        INDEX_TO_DRAW=max_flag;
+    }
+}
+
 void ISR_key1()
 {
-    lcd_Toast("KEY 1\0");
+    up_or_down_flag=0;
 }
 
 void ISR_key2()
@@ -39,7 +100,7 @@ void ISR_key2()
 
 void ISR_key3()
 {
-    lcd_Toast("KEY 3\0");
+    up_or_down_flag=2;
 }
 
 void ISR_key4()
@@ -75,7 +136,7 @@ void ISR_key6()
 
 void ISR_key7()
 {
-    lcd_Toast("KEY 7\0");
+    up_or_down_flag=1;
 }
 
 void ISR_key8()
@@ -86,8 +147,9 @@ void ISR_key8()
 
 void ISR_key9()
 {
-    static char num[2]={'0','\0'};
-    num[0]++;
-    lcd_Toast(num);
-//    lcd_Toast("KEY 9\0");
+    up_or_down_flag=3;
+//    static char num[2]={'0','\0'};
+//    num[0]++;
+//    lcd_Toast(num);
+////    lcd_Toast("KEY 9\0");
 }
