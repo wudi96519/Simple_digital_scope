@@ -9,8 +9,6 @@
 #endif
 #define ADC_CKPS   0x0   // ADC module clock = HSPCLK/2*ADC_CKPS   = 25.0MHz/(1*2) = 12.5MHz
 #define ADC_SHCLK  0x0   // S/H width in ADC module periods                        = 16 ADC clocks
-#define AVG        1000  // Average sample limit
-#define ZOFFSET    0x00  // Average Zero offset
 
 //int ADCsin[]={3631, 3565, 3496, 3423, 3347, 3267, 3185, 3100, 3013, 2923, 2831, 2737, 2642, 2545, 2447, 2348, 2248, 2148,\
 //	 2048, 1947, 1847, 1747, 1648, 1550, 1453, 1358, 1264, 1172, 1082, 995, 910, 828, 748, 672, 599, 530, 464, 403, 345, 291,\
@@ -24,14 +22,16 @@
 //			 910, 995, 1082, 1172, 1264, 1358, 1453, 1550, 1648, 1747, 1847, 1947, 2047, 2148, 2248, 2348, 2447, 2545, 2642, 2737,\
 //			  2831, 2923, 3013, 3100, 3185, 3267, 3347, 3423, 3496, 3565, 3631, 3692, 3750, 3804, 3854, 3899, 3940, 3976, 4007,\
 //			   4034, 4056, 4073, 4086, 4093, 4096, 4093, 4086, 4073, 4056, 4034, 4007, 3976, 3940, 3899, 3854, 3804, 3750, 3692};
-Uint16 SampleTable[BUF_SIZE]={0},avg_group[1000]={0};
+static Uint16 SampleTable[BUF_SIZE]={0};
+static double freq;
+static double voltege;
 Uint16 num_Of_Avg[] ={1000,500,200,100,50,20,10,500,200,100,50,20,10,5,2,1};
 Uint16 num_To_Over[]={99,99,99,99,99,99,99,0,0,0,0,0,0,0,0,0};
-Uint16 num_Of_index=15,//µµÎ»±êÖ¾
-        conversion_count=1,//Ò»¸öÆ½¾ùÖÜÆÚÄÚµÄ×ª»»¼ÆÊý
-        sample_index=0,//Êý¾Ý×îÖÕÊý×éÖ¸Õë
-        over_count=0;//Ê¡ÂÔ²ÉÑù¼ÆÊý
-Uint32 avg_sum=0,sample_priod=0;//Æ½¾ùÇóºÍ
+Uint16 num_Of_index=15,//ï¿½ï¿½Î»ï¿½ï¿½Ö¾
+        conversion_count=1,//Ò»ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        sample_index=0,//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
+        over_count=0;//Ê¡ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Uint32 avg_sum=0,sample_priod=0;//Æ½ï¿½ï¿½ï¿½ï¿½ï¿½
 Uint16 adc_finish_flag=0;
 __interrupt void adc_isr(void);
 void adc_Init()
@@ -93,7 +93,7 @@ __interrupt void adc_isr(void)
 		else
 		{conversion_count++;}
 
-		if(sample_index>=BUF_SIZE)//²É¼¯ÍêÒ»´Î£¬¿ÉÉèÖÃÒ»¸öflagÓÃÓÚÏÔÊ¾
+		if(sample_index>=BUF_SIZE)//ï¿½É¼ï¿½ï¿½ï¿½Ò»ï¿½Î£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½flagï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 		{
 			sample_index=0;
 			sample_priod=CpuTimer1.RegsAddr->TIM.all;

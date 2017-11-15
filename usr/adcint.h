@@ -3,16 +3,16 @@
 
 /**
  * TODO:
- *      ¶ÔlcdµÄ²Ù×÷¿ÉÄÜ·¢ÉúÔÚ°´¼üÊ±£¬´ËÊ±ADC²»Ò»¶¨¹Ø±Õ£¬¿ÉÄÜÐèÒªÔÝÍ£ adc ÖÐ¶Ï
- *      wudi½¨ÒéwenhaoÐ´ adc_STOP();
+ *      ï¿½ï¿½lcdï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü·ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê±ADCï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ø±Õ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Í£ adc ï¿½Ð¶ï¿½
+ *      wudiï¿½ï¿½ï¿½ï¿½wenhaoÐ´ adc_STOP();
  */
 
-#define BUF_SIZE   256                              //²ÉÑùµÄÊý×é³¤¶È
+#define BUF_SIZE   256                              //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é³¤ï¿½ï¿½
 
-extern void adc_Restart();                          //²ÉÑùÍê³ÉºóADC×Ô¶¯Í£Ö¹£¬ÊÖ¶¯ÖØÆô£¬( adc_Over() == 0 )
-extern void adc_Init();                             //ADC³õÊ¼»¯
-extern int  adc_Over();                             //²ÉÑùÍê³Éºó·µ»Ø   1 £¬
+extern void adc_Restart();                          //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éºï¿½ADCï¿½Ô¶ï¿½Í£Ö¹ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½( adc_Over() == 0 )
+extern void adc_Init();                             //ADCï¿½ï¿½Ê¼ï¿½ï¿½
+extern int  adc_Over();                             //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éºó·µ»ï¿½   1 ï¿½ï¿½
 
-extern Uint16 SampleTable[];
+static Uint16 SampleTable[];
 
 #endif

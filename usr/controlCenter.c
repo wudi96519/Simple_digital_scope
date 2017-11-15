@@ -8,12 +8,13 @@
 #define BAND 3
 
 /**
- * TODO:¸øÃ¿¸ö°´¼ü·ÖÅä¹¦ÄÜ
- *      Éè¶¨ÊÊµ±È«¾Ö±äÁ¿
+ * TODO:ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä¹¦ï¿½ï¿½
+ *      ï¿½è¶¨ï¿½Êµï¿½È«ï¿½Ö±ï¿½ï¿½ï¿½
  */
 
 int DISPLAY_CURVE=1;
-Uint16 up_or_down_flag=0;
+static Uint16 SampleTable[];
+Uint16 trigger_flag=0;
 void all_Sys_Init()
 {
     InitSysCtrl();
@@ -34,24 +35,24 @@ void all_Sys_Init()
 }
 
 
-void up_or_down(void)
+void get_trigger_index(void)
 {
     int i=0, minus=0,max=0,max_flag=0,zero_flag;
-    if(up_or_down_flag==1)                               //ÉÏÉýÑØ´¥·¢
+    if(trigger_flag==1)                               //ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
         for(i=0;i<128;i++)
         {
             minus = SampleTable[i+1]-SampleTable[i];
             if(minus-UP_OR_DOWN_DECIDE_VALUE>0)
             {INDEX_TO_DRAW=i;break;}
         }
-    else if(up_or_down_flag==0)                                           //ÏÂ½µÑØ´¥·¢
+    else if(trigger_flag==0)                                           //ï¿½Â½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
         for(i=0;i<128;i++)
         {
             minus = SampleTable[i+1]-SampleTable[i];
             if(minus+UP_OR_DOWN_DECIDE_VALUE<0)
             {INDEX_TO_DRAW=i;break;}
         }
-    else if(up_or_down_flag==2)                 //µÍµçÆ½´¥·¢
+    else if(trigger_flag==2)                 //ï¿½Íµï¿½Æ½ï¿½ï¿½ï¿½ï¿½
     {
         zero_flag=0;
         for(i=0;i<128;i++)
@@ -67,7 +68,7 @@ void up_or_down(void)
                 }
             }
     }
-    else if(up_or_down_flag==3)                 //¸ßµçÆ½´¥·¢
+    else if(trigger_flag==3)                 //ï¿½ßµï¿½Æ½ï¿½ï¿½ï¿½ï¿½
     {
         max=SampleTable[i]/64;
         for(i=0;i<128;i++)
@@ -89,7 +90,7 @@ void up_or_down(void)
 
 void ISR_key1()
 {
-    up_or_down_flag=0;
+    trigger_flag=0;
 }
 
 void ISR_key2()
@@ -100,7 +101,7 @@ void ISR_key2()
 
 void ISR_key3()
 {
-    up_or_down_flag=2;
+    trigger_flag=2;
 }
 
 void ISR_key4()
@@ -118,7 +119,7 @@ void ISR_key5()
             {
                 Lcd_ClearTXT();
                 Lcd_ClearBMP();
-                lcd_PutStr(0, 0, "ÆµÂÊ:\0");
+                lcd_PutStr(0, 0, "Æµï¿½ï¿½:\0");
                 DELAY_LOOP();
             }
 }
@@ -136,7 +137,7 @@ void ISR_key6()
 
 void ISR_key7()
 {
-    up_or_down_flag=1;
+    trigger_flag=1;
 }
 
 void ISR_key8()
@@ -147,7 +148,7 @@ void ISR_key8()
 
 void ISR_key9()
 {
-    up_or_down_flag=3;
+    trigger_flag=3;
 //    static char num[2]={'0','\0'};
 //    num[0]++;
 //    lcd_Toast(num);

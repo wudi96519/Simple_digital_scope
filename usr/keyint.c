@@ -1,5 +1,4 @@
 #include "DSP28x_Project.h"
-#include "lcd12864.h"
 
 static Uint16 ROW = 0, COLUMN = 0;
 Uint16 KEY = 0;
@@ -116,7 +115,7 @@ void key_Xint_Function()
 {
     key_scan();
     function_Select();
-    DELAY_LOOP();
+    DELAY_US(1);
     PieCtrlRegs.PIEACK.all |= PIEACK_GROUP12;
 }
 
