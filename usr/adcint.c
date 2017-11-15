@@ -27,11 +27,11 @@ static double freq;
 static double voltege;
 Uint16 num_Of_Avg[] ={1000,500,200,100,50,20,10,500,200,100,50,20,10,5,2,1};
 Uint16 num_To_Over[]={99,99,99,99,99,99,99,0,0,0,0,0,0,0,0,0};
-Uint16 num_Of_index=15,//��λ��־
-        conversion_count=1,//һ��ƽ�������ڵ�ת������
-        sample_index=0,//������������ָ��
-        over_count=0;//ʡ�Բ�������
-Uint32 avg_sum=0,sample_priod=0;//ƽ�����
+Uint16 num_Of_index=15,//档位标志
+        conversion_count=1,//一个平均周期内的转换计数
+        sample_index=0,//数据最终数组指针
+        over_count=0;//省略采样计数
+Uint32 avg_sum=0,sample_priod=0;//平均求和
 Uint16 adc_finish_flag=0;
 __interrupt void adc_isr(void);
 void adc_Init()
