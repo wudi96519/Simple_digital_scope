@@ -35,9 +35,8 @@ unsigned char AC_TABLE[] = {
 	0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f,\
 };
 static Uint16 frambuff[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-int sin[] = {32, 32, 32, 32, 32, 39, 41, 42, 44, 45, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 60, 61, 62, 62, 63, 63, 63, 63, 63, 64, 63, 63, 63, 63, 63, 62, 62, 61, 60, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 49, 48, 47, 45, 44, 42, 41, 39, 38, 36, 35, 33, 32, 30, 28, 27, 25, 24, 22, 21, 19, 18, 16, 15, 14, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 18, 19, 21, 22, 24, 25, 27, 28, 30};
 char msgF[]="  Freq:   .   Hz \0";
-char msgV[]="  Volt:   .   V  \0";
+char msgV[]="vppVolt:  .   V  \0";
 
 #define uchar unsigned char
 #define uint unsigned int
@@ -59,42 +58,6 @@ int frambufftoYADR(int frambuff);
 void lcd_ready_to_draw();
 void lcd_draw_over();
 
-void Delay(uint MS)
-{
-	uchar us, usn;
-	while (MS != 0) //for 12M
-	{
-		usn = 2;
-		while (usn != 0)
-		{
-			us = 0xf5;
-			while (us != 0)
-			{
-				us--;
-			};
-			usn--;
-		}
-		MS--;
-	}
-}
-void DelayKey(uint Second, uint MS100)
-{
-	uint i;
-	for (i = 0; i < Second * 100 + MS100 * 10; i++)
-	{
-		if (Key == 0)
-		{
-			Delay(20);
-			while (Key == 0)
-			{
-				Delay(20);
-			}
-			break;
-		}
-		else
-			Delay(10);
-	}
-}
 
 void delay_Loop(Uint32 x)
 {
@@ -104,29 +67,14 @@ void delay_Loop(Uint32 x)
 	}
 }
 
-Uint16 read_byte(void)
+void DELAY_LOOP()
 {
-	Uint16 i = 0;
-	Uint16 data = 0;
-	SDATA_IN;
-	data = 0;
-	for (i = 0; i <= 7; i++)
+	int i = 0;
+	for (; i < TOAST_TIME; i++)
 	{
-		SCLK_0;
-		SCLK_quarter;
-		SCLK_1;
-		SCLK_quarter;
-		if (SDATA)
-		{
-			data = (data | (0x01 << (7 - i)));
-		}
-		SCLK_quarter;
-		SCLK_0;
-		SCLK_quarter;
+		delay_Loop(50000);
 	}
-	return data;
 }
-
 void write_byte(Uint16 x)
 {
 	Uint16 i = 0;
@@ -147,19 +95,6 @@ void write_byte(Uint16 x)
 	SDATA = 0;
 }
 
-Uint16 lcd_read_data(void)
-{
-	Uint16 tmp1, tmp2, data;
-	CS_1;
-	write_byte(0xFE); 
-	tmp1 = read_byte();
-	tmp2 = read_byte();
-	CS_0;
-	execute_72us;
-	data = (tmp1 & 0xF0);
-	data = (data | ((tmp2 & 0xF0) >> 4));
-	return data;
-}
 
 void lcd_write_data(Uint16 data)
 {
@@ -372,31 +307,31 @@ void lcd_Update()
 	lcd_Clear_frambuff();
 }
 
-void lcd_Sin_test()
-{
-	lcd_Clean_Screnn_With_Buffer();
-	int i = 0, oldY = sin[0], j = 0;
-	for (j = 0; j < 128; j++)
-	{
-		if (oldY - sin[j] >= 4)
-		{
-			for (i = 0; i < oldY - sin[j]; i++)
-			{
-				put_point(j, sin[j] + i);
-			}
-		}
-		else if (sin[j] - oldY >= 4)
-		{
-			for (i = 0; i < sin[j] - oldY; i++)
-			{
-				put_point(j, oldY + i);
-			}
-		}
-		put_point(j, sin[j]);
-		oldY = sin[j];
-	}
-	lcd_Draw_With_Buffer();
-}
+// void lcd_Sin_test()
+// {
+// 	lcd_Clean_Screnn_With_Buffer();
+// 	int i = 0, oldY = sin[0], j = 0;
+// 	for (j = 0; j < 128; j++)
+// 	{
+// 		if (oldY - sin[j] >= 4)
+// 		{
+// 			for (i = 0; i < oldY - sin[j]; i++)
+// 			{
+// 				put_point(j, sin[j] + i);
+// 			}
+// 		}
+// 		else if (sin[j] - oldY >= 4)
+// 		{
+// 			for (i = 0; i < sin[j] - oldY; i++)
+// 			{
+// 				put_point(j, oldY + i);
+// 			}
+// 		}
+// 		put_point(j, sin[j]);
+// 		oldY = sin[j];
+// 	}
+// 	lcd_Draw_With_Buffer();
+// }
 
 void lcd_Toast(char *puts)
 {
@@ -407,18 +342,10 @@ void lcd_Toast(char *puts)
 	Lcd_ClearTXT();
 }
 
-void DELAY_LOOP()
-{
-	int i = 0;
-	for (; i < TOAST_TIME; i++)
-	{
-		delay_Loop(65535);
-	}
-}
-void lcd_Draw_Sample(void)
+void lcd_Draw_Sample(int * SampleTable)
 {
 	lcd_Clean_Screnn_With_Buffer();
-	get_trigger_index(1);
+	get_trigger_index(0);
 	INDEX_TO_DRAW=index_buff[0];
 	if(INDEX_TO_DRAW>=127)
 	    INDEX_TO_DRAW=127;
@@ -492,6 +419,10 @@ void lcd_Show_Freq_Volt(double freq,double Voltage)
         freq/=1000;
         msgF[13]='k';
     }
+	else
+	{
+		msgF[13]=' ';
+	}
     int i=0;
     msgF[12]='0'+((int)(freq*100))%10;
     msgF[11]='0'+((int)(freq*10))%10;

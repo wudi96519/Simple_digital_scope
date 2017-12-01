@@ -13,11 +13,6 @@ extern void ISR_key7();
 extern void ISR_key8();
 extern void ISR_key9();
 
-/**
- * 
- * 鑳戒繚璇佷竴娆＄煭鏃堕棿鎸変笅锛岃櫧鐒跺彲鑳借Е鍙戝娆′腑鏂紝浣嗘槸鍙墽琛屼竴娆℃浠跺搴斿嚱鏁�
- * 瀵逛簬闀挎椂闂存寜涓嬶紝闂撮殧涓�瀹氭椂闂存墽琛屼竴娆�
- **/
 void function_Select()
 {
     switch (KEY)

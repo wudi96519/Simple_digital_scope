@@ -8,7 +8,7 @@
 #define EN_ADC 1
 #define EN_KEY 1
 #define EN_LCD 1
-#define EN_DEBUG 0
+#define EN_DEBUG_LCD 0
 
 extern int INDEX_TO_DRAW;
 extern Uint16 up_or_down_flag;
@@ -19,7 +19,7 @@ extern int votage_Level;
 extern int DISPLAY_CURVE;
 extern int KEY5PRESSED;
 extern int UP_OR_DOWN_DECIDE_VALUE;
-extern void all_Sys_Init();
+extern void cc_all_Sys_Init();
 
 extern void ISR_key1();
 extern void ISR_key2();
@@ -30,6 +30,7 @@ extern void ISR_key6();
 extern void ISR_key7();
 extern void ISR_key8();
 extern void ISR_key9();
+extern void cc_main_loop();
 
 
 
