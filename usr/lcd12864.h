@@ -1,19 +1,26 @@
 #ifndef __LCD12864_H_
 #define __LCD12864_H_
 
-#define  TOAST_TIME  20                               //ÍÂË¾Ê±¼ä£¨²»¾«È·£©
+#define  TOAST_TIME  20                               //åå¸æ—¶é—´ï¼ˆä¸ç²¾ç¡®ï¼‰
 #define  TOAST_TEXT_TIME  5
-
+extern int votage_Level;
 extern void DELAY_LOOP();
-extern void lcd_Init();                                     //³õÊ¼»¯LCD
+extern void lcd_Init();                                     //åˆå§‹åŒ–LCD
+extern void lcd_Update();                                   //æ˜¾ç¤ºç¼“å­˜çš„å›¾åƒ
+extern void lcd_Clear_frambuff();                           //æ¸…ç©ºç¼“å­˜
 extern void lcd_PutStr(unsigned char row, \
-                       unsigned char col, char *puts);      //ÏÔÊ¾×Ö·û´®ÖÁÖ¸¶¨Î»ÖÃ,etc:```  lcd_PutStr(0,0,"hello world\0");
-extern void Lcd_ClearBMP(void);                             //Çå¿ÕÍ¼Ïñ
-extern void Lcd_ClearTXT(void);                             //Çå¿Õºº×Ö
+                       unsigned char col, char *puts);      //æ˜¾ç¤ºå­—ç¬¦ä¸²è‡³æŒ‡å®šä½ç½®,etc:```  lcd_PutStr(0,0,"hello world\0");
+extern void Lcd_ClearBMP(void);                             //æ¸…ç©ºå›¾åƒ
+extern void Lcd_ClearTXT(void);                             //æ¸…ç©ºæ±‰å­—
+extern void lcd_PutPointtoBuffer(int x,int y);              //ç”»ç‚¹è‡³ç¼“å­˜
 
-extern void lcd_Sin_test();                                 //²âÊÔº¯Êı£º»æÖÆÕıÏÒ²¨
-extern void lcd_Draw_Sample();                              //»æÖÆADC²ÉÑù½á¹û
-extern void lcd_Toast(char *puts);                          //ToastÌáÊ¾
-extern void lcd_Show_Freq_Volt();                           //ÏÔÊ¾ÆµÂÊ£¬·ùÖµ
+/**
+ * é«˜å±‚å‡½æ•°
+ */
+extern void lcd_Sin_test();                                 //æµ‹è¯•å‡½æ•°ï¼šç»˜åˆ¶æ­£å¼¦æ³¢
+extern void lcd_Draw_Sample();                              //ç»˜åˆ¶ADCé‡‡æ ·ç»“æœ
+extern void lcd_Toast(char *puts);                          //Toastæç¤º
+extern void lcd_Clean_Screnn_With_Buffer();
+extern void lcd_Show_Freq_Volt(double freq,double Voltage);
 
 #endif

@@ -1,4 +1,5 @@
 #include "DSP28x_Project.h"
+#include "lcd12864.h"
 
 static Uint16 ROW = 0, COLUMN = 0;
 Uint16 KEY = 0;
@@ -14,8 +15,8 @@ extern void ISR_key9();
 
 /**
  * 
- * 能保证一次短时间按下，虽然可能触发多次中断，但是只执行一次案件对应函数
- * 对于长时间按下，间隔一定时间执行一次
+ * 鑳戒繚璇佷竴娆＄煭鏃堕棿鎸変笅锛岃櫧鐒跺彲鑳借Е鍙戝娆′腑鏂紝浣嗘槸鍙墽琛屼竴娆℃浠跺搴斿嚱鏁�
+ * 瀵逛簬闀挎椂闂存寜涓嬶紝闂撮殧涓�瀹氭椂闂存墽琛屼竴娆�
  **/
 void function_Select()
 {
@@ -115,7 +116,8 @@ void key_Xint_Function()
 {
     key_scan();
     function_Select();
-    DELAY_US(1);
+    DELAY_LOOP();
+    DELAY_LOOP();
     PieCtrlRegs.PIEACK.all |= PIEACK_GROUP12;
 }
 

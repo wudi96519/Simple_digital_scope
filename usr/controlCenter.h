@@ -11,14 +11,15 @@
 #define EN_DEBUG 0
 
 extern int INDEX_TO_DRAW;
+extern Uint16 up_or_down_flag;
 
 extern Uint16 num_Of_index;
 extern Uint16 sample_index;
 extern int votage_Level;
 extern int DISPLAY_CURVE;
-
+extern int KEY5PRESSED;
+extern int UP_OR_DOWN_DECIDE_VALUE;
 extern void all_Sys_Init();
-extern void get_trigger_index(void);
 
 extern void ISR_key1();
 extern void ISR_key2();

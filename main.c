@@ -1,25 +1,28 @@
-//###########################################################################
-// LCD12864——dsp28335 数字简易示波器
-//###########################################################################
-
-#include "DSP28x_Project.h" // Device Headerfile and Examples Include File
+#include "DSP28x_Project.h"
 #include "usr/lcd12864.h"
 #include "usr/keyint.h"
 #include "usr/adcint.h"
 #include "usr/controlCenter.h"
+extern int index_buff[2];
+extern void get_trigger_index(int index_num);
+extern Uint32 sample_priod;
+void para_test();
 
-/***
- * TODO:  * 频率测量、幅值测量
- */
-
-/******************************************************************************************/
-
+extern Uint32 sample_priod;
+double freq=0,period=0;
+extern double Voltage;
 
 void main(void)
 {
     all_Sys_Init();
     Lcd_ClearBMP();
      for(;;){
+         if(KEY5PRESSED)
+         {
+             lcd_Clean_Screnn_With_Buffer();
+             Lcd_ClearTXT();
+             KEY5PRESSED=0;
+         }
          if(DISPLAY_CURVE){
              if(adc_Over()){
                  //Lcd_ClearTXT();
@@ -33,7 +36,6 @@ void main(void)
                  {
                      lcd_Draw_Sample();
                      DELAY_LOOP();
-
                  }
  //                DELAY_LOOP();
                  adc_Restart();
@@ -41,11 +43,16 @@ void main(void)
          }
          if(!DISPLAY_CURVE)
                     {
-                        lcd_PutStr(0, 0,"Freq:\0");
-                        DELAY_LOOP();
-                        Lcd_ClearTXT();
-                        Lcd_ClearBMP();
+                        para_test();
+                        lcd_Show_Freq_Volt(freq, Voltage);
+                        adc_Restart();
                     }
-
      }
+}
+
+void para_test()
+{
+    get_trigger_index(2);
+    period=(double)sample_priod*(double)(index_buff[1]-index_buff[0])/150.0/256.0;
+    freq=1000000/period;
 }

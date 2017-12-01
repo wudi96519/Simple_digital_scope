@@ -2,6 +2,6 @@
 #define __KEYINT_H_
 
 
-extern void keyboard_Scan_Init();
+extern void keyboard_Scan_Init();           //≥ı ºªØº¸≈Ã…®√Ë
 
 #endif

@@ -6,7 +6,8 @@
 extern void adc_Restart();                          //采样完成后ADC自动停止，手动重启，( adc_Over() == 0 )
 extern void adc_Init();                             //ADC初始化
 extern int  adc_Over();                             //采样完成后返回   1 ，
-
+extern void ADC_config(int config_index);
 extern Uint16 SampleTable[];
+extern double Voltage;
 
 #endif
