@@ -40,7 +40,7 @@ Uint16 num_Of_index = 15,
        over_count = 0;
 Uint32 avg_sum = 0, sample_priod = 0;
 Uint16 adc_finish_flag = 0;
-double Voltage = 3.0;
+double Voltage = 3.0,maxVoltage=3.0;
 
 Uint16 tmpMax = 0, tmpMin = 4095, tmpVal = 0;
 
@@ -107,6 +107,7 @@ void adc_Restart()
 int adc_Over()
 {
     Voltage = (double)(tmpMax - tmpMin) / 4095.0 * 3.0;
+    maxVoltage=(double)tmpMax / 4095.0 * 3.0;
     return adc_finish_flag;
 }
 
@@ -125,7 +126,6 @@ __interrupt void adc_isr(void)
         over_count = 0;
         if (conversion_count >= num_Of_Avg[num_Of_index])
         {
-
             conversion_count = 1;
             tmpVal = avg_sum / num_Of_Avg[num_Of_index];
             SampleTable[sample_index] = tmpVal;

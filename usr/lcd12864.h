@@ -1,9 +1,8 @@
 #ifndef __LCD12864_H_
 #define __LCD12864_H_
 
-#define  TOAST_TIME  20                               //吐司时间（不精确）
-#define  TOAST_TEXT_TIME  5
-extern int votage_Level;
+#define TOAST_TEXT_TIME 20
+#define TOAST_TIME 5
 extern void DELAY_LOOP();
 extern void lcd_Init();                                     //初始化LCD
 extern void lcd_Update();                                   //显示缓存的图像
@@ -14,9 +13,6 @@ extern void Lcd_ClearBMP(void);                             //清空图像
 extern void Lcd_ClearTXT(void);                             //清空汉字
 extern void lcd_PutPointtoBuffer(int x,int y);              //画点至缓存
 
-/**
- * 高层函数
- */
 extern void lcd_Sin_test();                                 //测试函数：绘制正弦波
 extern void lcd_Draw_Sample();                              //绘制ADC采样结果
 extern void lcd_Toast(char *puts);                          //Toast提示
