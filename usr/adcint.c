@@ -16,7 +16,7 @@ Uint16 num_Of_config1[] = {15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
 Uint16 num_Of_config2[] = {15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 Uint16 num_To_Over[] = {1000, 500, 200, 100, 50, 20, 10, 5, 2, 1, 0, 0, 0, 0, 0, 0};
 
-Uint16 num_Of_index = 2,
+Uint16 num_Of_index = 15,
        conversion_count = 1,
        sample_index = 0,
        over_count = 0;
