@@ -11,13 +11,20 @@ int DISPLAY_CURVE = 1;
 int KEY5PRESSED = 0;
 Uint16 trigger_flag = 0;
 int index_buff[2] = {0};
-void get_trigger_index(int index_num);
+int INDEX_TO_DRAW = 0;
+int votage_Level = 0;
+char msgF[] = "  Freq:   .   Hz \0";
+char msgV[] = "vppVolt:  .   V  \0";
+char msgMV[] = "maxVolt:  .   V  \0";
+void cc_get_trigger_index(int index_num);
 void para_test();
 
 extern Uint32 sample_priod;
 double freq = 0, period = 0;
-extern double Voltage;
+extern double Voltage, maxVoltage; //from adcint
 
+void cc_lcd_Draw_Sample(Uint16 *SampleTable);
+void cc_lcd_Show_Freq_Volt(double freq, double Voltage, double maxVoltage);
 void cc_all_Sys_Init()
 {
     InitSysCtrl();
@@ -26,15 +33,10 @@ void cc_all_Sys_Init()
     IER = 0x0000;
     IFR = 0x0000;
     InitPieVectTable();
-    if (EN_ADC)
-        adc_Init();
-    if (EN_LCD)
-    {
-        lcd_Init();
-        lcd_Toast("   welcome to    digital scope~!\0");
-    }
-    if (EN_KEY)
-        keyboard_Scan_Init();
+    adc_Init();
+    lcd_Init();
+    lcd_Toast("   welcome to    digital scope~!\0");
+    keyboard_Scan_Init();
 }
 
 void cc_main_loop()
@@ -45,30 +47,52 @@ void cc_main_loop()
         Lcd_ClearTXT();
         KEY5PRESSED = 0;
     }
-    if (adc_Over())
+    if ((num_Of_index <= 2) && (DISPLAY_CURVE)) //慢速模式
     {
         if (DISPLAY_CURVE)
         {
-            if (EN_DEBUG_LCD)
+            static int i = 0;
+
+            if ((sample_index % 16) == 0)
             {
-                lcd_Sin_test();
-            }
-            else
-            {
-                lcd_Draw_Sample(SampleTable);
+                i++;
+                if (i == 9)
+                {
+                    i = 0;
+                }
+
+                {
+                    lcd_Clean_Screnn_With_Buffer();
+                    lcd_Draw_Curve(SampleTable, 0, 16 * i, (6 + votage_Level));
+                    lcd_Draw_With_Buffer();
+                }
             }
         }
-        else if (!DISPLAY_CURVE)
+        if (adc_Over())
         {
-            para_test();
-            lcd_Show_Freq_Volt(freq, Voltage);
+            adc_Restart();
         }
-        DELAY_LOOP();
-        adc_Restart();
+    }
+    else
+    {
+        if (adc_Over())
+        {
+            if (DISPLAY_CURVE)
+            {
+                cc_lcd_Draw_Sample(SampleTable);
+            }
+            else if (!DISPLAY_CURVE)
+            {
+                para_test();
+                cc_lcd_Show_Freq_Volt(freq, Voltage, maxVoltage);
+            }
+            DELAY_LOOP();
+            adc_Restart();
+        }
     }
 }
 
-void get_trigger_index(index_num)
+void cc_get_trigger_index(index_num)
 {
     UP_OR_DOWN_DECIDE_VALUE = (int)(0.6 * (tmpMax - tmpMin));
     index_buff[index_num] = 0;
@@ -133,8 +157,6 @@ void ISR_key1()
 void ISR_key2()
 {
     votage_Level += votage_Level == 5 ? 0 : 1;
-    UP_OR_DOWN_DECIDE_VALUE = 1000 >> -votage_Level;
-    //    lcd_Toast("KEY 2\0");
 }
 
 void ISR_key3()
@@ -144,7 +166,6 @@ void ISR_key3()
 
 void ISR_key4()
 {
-    //num_Of_index++;
     num_Of_index = (num_Of_index == 15) ? 15 : num_Of_index + 1;
     ADC_config(num_Of_index);
     sample_index = 0;
@@ -152,7 +173,6 @@ void ISR_key4()
 
 void ISR_key5()
 {
-    //    lcd_Toast("KEY 5\0");
     if (!KEY5PRESSED)
     {
         DISPLAY_CURVE = DISPLAY_CURVE == 1 ? 0 : 1;
@@ -162,11 +182,6 @@ void ISR_key5()
 
 void ISR_key6()
 {
-    // num_Of_index--;
-    //    if(num_Of_index>16).
-    //.....
-
-    //warnnig
     num_Of_index = (num_Of_index == 0) ? 0 : num_Of_index - 1;
     ADC_config(num_Of_index);
     sample_index = 0;
@@ -180,28 +195,70 @@ void ISR_key7()
 void ISR_key8()
 {
     votage_Level -= votage_Level == (-5) ? 0 : 1;
-    UP_OR_DOWN_DECIDE_VALUE = 1000 >> -votage_Level;
-    //lcd_Toast("KEY 8\0");
 }
 
 void ISR_key9()
 {
     trigger_flag = 3;
-    //    static char num[2]={'0','\0'};
-    //    num[0]++;
-    //    lcd_Toast(num);
-    ////    lcd_Toast("KEY 9\0");
 }
 
 void para_test()
 {
     double oldFreq = freq;
-    get_trigger_index(0);
-    get_trigger_index(1);
+    cc_get_trigger_index(0);
+    cc_get_trigger_index(1);
     period = (double)sample_priod * (double)(index_buff[1] - index_buff[0]) / 150.0 / 256.0;
     freq = 1000000 / period;
     if (freq < 0)
     {
         freq = oldFreq;
     }
+}
+
+void cc_lcd_Show_Freq_Volt(double freq, double Voltage, double maxVoltage)
+{
+    if (freq / 1000 > 1)
+    {
+        freq /= 1000;
+        msgF[13] = 'k';
+    }
+    else
+    {
+        msgF[13] = ' ';
+    }
+    int i = 0;
+    msgF[12] = '0' + ((int)(freq * 100)) % 10;
+    msgF[11] = '0' + ((int)(freq * 10)) % 10;
+    msgF[9] = '0' + ((int)freq) % 10;
+    msgF[8] = '0' + ((int)freq) / 10 % 10;
+    msgF[7] = '0' + ((int)freq) / 100 % 10;
+    for (i = 7; i <= 10; i++)
+    {
+        if (msgF[i] != '0')
+            break;
+        else
+            msgF[i] = ' ';
+    }
+    msgV[9] = '0' + (int)Voltage % 10;
+    msgV[11] = '0' + (int)(Voltage * 10) % 10;
+    msgV[12] = '0' + (int)(Voltage * 100) % 10;
+    msgV[13] = '0' + (int)(Voltage * 1000) % 10;
+
+    msgMV[9] = '0' + (int)maxVoltage % 10;
+    msgMV[11] = '0' + (int)(maxVoltage * 10) % 10;
+    msgMV[12] = '0' + (int)(maxVoltage * 100) % 10;
+    msgMV[13] = '0' + (int)(maxVoltage * 1000) % 10;
+
+    lcd_PutStr(0, 0, msgF);
+    lcd_PutStr(1, 0, msgV);
+    lcd_PutStr(2, 0, msgMV);
+}
+
+void cc_lcd_Draw_Sample(Uint16 *SampleTable)
+{
+    lcd_Clean_Screnn_With_Buffer();
+    cc_get_trigger_index(0);
+    INDEX_TO_DRAW = index_buff[0];
+    lcd_Draw_Curve(SampleTable, INDEX_TO_DRAW, 128, (6 + votage_Level));
+    lcd_Draw_With_Buffer();
 }

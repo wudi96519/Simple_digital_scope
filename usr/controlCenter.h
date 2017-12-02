@@ -2,14 +2,6 @@
 #ifndef USR_CONTROLCENTER_H_
 #define USR_CONTROLCENTER_H_
 
-/**
- * just for debug..
- */
-#define EN_ADC 1
-#define EN_KEY 1
-#define EN_LCD 1
-#define EN_DEBUG_LCD 0
-
 extern int INDEX_TO_DRAW;
 extern Uint16 up_or_down_flag;
 

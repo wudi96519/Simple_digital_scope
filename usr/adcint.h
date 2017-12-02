@@ -8,7 +8,7 @@ extern void adc_Init();                             //ADC初始化
 extern int  adc_Over();                             //采样完成后返回   1 ，
 extern void ADC_config(int config_index);
 extern Uint16 SampleTable[];
-extern double Voltage;
+extern double Voltage,maxVoltage;
 extern Uint16 tmpMax;
 extern Uint16 tmpMin;
 extern Uint16 tmpVal;

@@ -28,31 +28,18 @@
 #define RST_1 GpioDataRegs.GPADAT.bit.GPIO3 = 1
 #define RST_0 GpioDataRegs.GPADAT.bit.GPIO3 = 0
 
+#define FRAMBUFFSIZE 512
+#define DWAR_LINE_BAND 4
+
 unsigned char AC_TABLE[] = {
 	0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,\
 	0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,\
 	0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f,\
 	0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f,\
 };
-static Uint16 frambuff[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-char msgF[]="  Freq:   .   Hz \0";
-char msgV[]="vppVolt:  .   V  \0";
-char msgMV[]="maxVolt:  .   V  \0";
 
-#define uchar unsigned char
-#define uint unsigned int
+Uint16 frambuff[FRAMBUFFSIZE] = {0};
 
-int INDEX_TO_DRAW=0;
-
-extern double freq;
-extern double Voltage,maxVoltage;
-
-extern void get_trigger_index(int index_num);
-extern int index_buff[2];
-extern Uint16 SampleTable[];
-int votage_Level = 0;
-
-Uint16 Key = 1;
 void put_point(uchar x, uchar y);
 int frambufftoXADR(int frambuff);
 int frambufftoYADR(int frambuff);
@@ -76,6 +63,41 @@ void DELAY_LOOP()
 		delay_Loop(50000);
 	}
 }
+
+/* *
+ * SampleTable长度可以大于128，
+ * 从INDEX_TO_DRAW开始画，
+ * 画点长度为LENGTH_TO_DRAW，
+ * 缩放（缩小）倍数为lessen_times
+ * */
+void lcd_Draw_Curve(Uint16 * SampleTable,int INDEX_TO_DRAW,int LENGTH_TO_DRAW,int lessen_times)
+{
+	if(INDEX_TO_DRAW>=127)
+	    INDEX_TO_DRAW=127;
+	int j = 0, i = 0;
+	Uint16 oldY = (SampleTable[0] >> lessen_times);
+	for (j = 0; j < LENGTH_TO_DRAW; j++)
+	{
+		Uint16 sampletodraw = SampleTable[j+INDEX_TO_DRAW] >> lessen_times ;
+		if (oldY >= DWAR_LINE_BAND + sampletodraw)
+		{
+			for (i = 0; i < oldY - sampletodraw; i++)
+			{
+				put_point(j, sampletodraw + i);
+			}
+		}
+		if (sampletodraw >= DWAR_LINE_BAND + oldY)
+		{
+			for (i = 0; i < sampletodraw - oldY; i++)
+			{
+				put_point(j, oldY + i);
+			}
+		}
+		put_point(j, sampletodraw);
+		oldY = sampletodraw;
+	}
+}
+
 void write_byte(Uint16 x)
 {
 	Uint16 i = 0;
@@ -225,7 +247,6 @@ void lcd_Clean_Screnn_With_Buffer()
 
 			lcd_write_cmd(frambufftoYADR(i));
 			lcd_write_cmd(frambufftoXADR(i));
-
 			lcd_write_data(0x00);
 			lcd_write_data(0x00);
 			frambuff[i] = 0x00;
@@ -248,16 +269,13 @@ void lcd_Draw_With_Buffer()
 			lcd_write_cmd(frambufftoXADR(i));
 			lcd_write_data(frambuff[i]>>8);
 			lcd_write_data(frambuff[i]);
-			//frambuff[i] = 0x00;
 		}
 	}
 	lcd_draw_over();
-	//lcd_Clear_frambuff();
 }
 
 int xytobuffRange(int x, int y)
 {
-	//    y = 63 - y;
 	int x_byte = x / 16;
 
 	int down = y / 32;
@@ -273,7 +291,24 @@ int frambufftoYADR(int frambuff)
 {
 	return 0x80 + frambuff / 16;
 }
+void lcd_ready_to_draw()
+{
+	lcd_write_cmd(0x34);
+	lcd_write_cmd(0x34);
+}
 
+void lcd_draw_over()
+{
+	lcd_write_cmd(0x36);
+	lcd_write_cmd(0x30);
+}
+
+void put_point(uchar x, uchar y)
+{
+	y = (y > 63) ? 63 : y;
+	y = 63 - y;
+	lcd_PutPointtoBuffer(x, y);
+}
 void lcd_PutPointtoBuffer(int x, int y)
 {
 	int bits = (0x8000) >> (x % 16);
@@ -302,38 +337,6 @@ void lcd_Clear_frambuff()
 	}
 }
 
-void lcd_Update()
-{
-	lcd_PutBMP(frambuff);
-	lcd_Clear_frambuff();
-}
-
-// void lcd_Sin_test()
-// {
-// 	lcd_Clean_Screnn_With_Buffer();
-// 	int i = 0, oldY = sin[0], j = 0;
-// 	for (j = 0; j < 128; j++)
-// 	{
-// 		if (oldY - sin[j] >= 4)
-// 		{
-// 			for (i = 0; i < oldY - sin[j]; i++)
-// 			{
-// 				put_point(j, sin[j] + i);
-// 			}
-// 		}
-// 		else if (sin[j] - oldY >= 4)
-// 		{
-// 			for (i = 0; i < sin[j] - oldY; i++)
-// 			{
-// 				put_point(j, oldY + i);
-// 			}
-// 		}
-// 		put_point(j, sin[j]);
-// 		oldY = sin[j];
-// 	}
-// 	lcd_Draw_With_Buffer();
-// }
-
 void lcd_Toast(char *puts)
 {
 	lcd_PutStr(0, 0, puts);
@@ -343,111 +346,3 @@ void lcd_Toast(char *puts)
 	Lcd_ClearTXT();
 }
 
-void lcd_Draw_Sample(int * SampleTable)
-{
-	lcd_Clean_Screnn_With_Buffer();
-	get_trigger_index(0);
-	INDEX_TO_DRAW=index_buff[0];
-	if(INDEX_TO_DRAW>=127)
-	    INDEX_TO_DRAW=127;
-	int j = 0, i = 0;
-	Uint16 oldY = (SampleTable[0] >> (6 + votage_Level));
-	for (j = 0; j < 128; j++)
-	{
-		Uint16 sampletodraw = SampleTable[j+INDEX_TO_DRAW] >> (6 + votage_Level);
-		if (oldY >= 4 + sampletodraw)
-		{
-			for (i = 0; i < oldY - sampletodraw; i++)
-			{
-				put_point(j, sampletodraw + i);
-			}
-		}
-		if (sampletodraw >= 4 + oldY)
-		{
-			for (i = 0; i < sampletodraw - oldY; i++)
-			{
-				put_point(j, oldY + i);
-			}
-		}
-		put_point(j, sampletodraw);
-		oldY = sampletodraw;
-	}
-	lcd_Draw_With_Buffer();
-}
-
-void lcd_ready_to_draw()
-{
-	lcd_write_cmd(0x34);
-	lcd_write_cmd(0x34);
-}
-
-void lcd_draw_over()
-{
-	lcd_write_cmd(0x36);
-	lcd_write_cmd(0x30);
-}
-
-/**There's no need to calculate x,y to buffer index
-*   Change it later
-*/
-void put_point(uchar x, uchar y)
-{
-	y = (y > 63) ? 63 : y;
-	y = 63 - y;
-	lcd_PutPointtoBuffer(x, y);
-//	uint bt = 0;
-//	uchar x_adr, y_adr, h_bit, l_bit;
-//	y_adr = 0x80 + y % 32;
-//	if (y > 31)
-//		x_adr = 0x88 + x / 16;
-//	else
-//		x_adr = 0x80 + x / 16;
-//	bt = 0x8000 >> (x % 16);
-//	int buffrange = xytobuffRange(x, y);
-//	bt = bt | frambuff[buffrange];
-//	h_bit = bt >> 8;
-//	l_bit = bt;
-//	lcd_write_cmd(y_adr);
-//	lcd_write_cmd(x_adr);
-//	lcd_write_data(h_bit);
-//	lcd_write_data(l_bit);
-}
-
-void lcd_Show_Freq_Volt(double freq,double Voltage)
-{
-    if(freq/1000>1)
-    {
-        freq/=1000;
-        msgF[13]='k';
-    }
-	else
-	{
-		msgF[13]=' ';
-	}
-    int i=0;
-    msgF[12]='0'+((int)(freq*100))%10;
-    msgF[11]='0'+((int)(freq*10))%10;
-    msgF[9]='0'+((int)freq)%10;
-    msgF[8]='0'+((int)freq)/10%10;
-    msgF[7]='0'+((int)freq)/100%10;
-    for(i=7;i<=10;i++)
-    {
-        if(msgF[i]!='0')
-            break;
-        else
-            msgF[i]=' ';
-    }
-    msgV[9]='0'+(int)Voltage%10;
-    msgV[11]='0'+(int)(Voltage*10)%10;
-    msgV[12]='0'+(int)(Voltage*100)%10;
-    msgV[13]='0'+(int)(Voltage*1000)%10;
-
-    msgMV[9]='0'+(int)maxVoltage%10;
-    msgMV[11]='0'+(int)(maxVoltage*10)%10;
-    msgMV[12]='0'+(int)(maxVoltage*100)%10;
-    msgMV[13]='0'+(int)(maxVoltage*1000)%10;
-
-    lcd_PutStr(0,0,msgF);
-    lcd_PutStr(1,0,msgV);
-    lcd_PutStr(2,0,msgMV);
-}
